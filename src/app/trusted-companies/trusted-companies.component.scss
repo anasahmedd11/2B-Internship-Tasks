@@ -1,0 +1,150 @@
+.trusted-companies-section {
+  padding: 60px 0;
+  background: #fff;
+
+  .container {
+    background: linear-gradient(135deg, #f8e8f5, #faf0f7);
+    border-radius: 20px;
+    padding: 50px 40px;
+    position: relative;
+  }
+  
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.2;
+
+    .trusted-text {
+      color: #2c3e50;
+    }
+
+    .highlight-number {
+      color: #ff1493;
+      background: linear-gradient(135deg, #ff1493, #ff69b4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .companies-text {
+      color: #2c3e50;
+    }
+  }
+
+  .title-underline {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, #ff1493, #ff69b4);
+    margin: 0 auto 50px auto;
+    border-radius: 2px;
+  }
+
+  .companies-logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    .logo-item {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 120px;
+      max-width: 160px;
+      height: 60px;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+        
+        .company-logo {
+          opacity: 1;
+          filter: none;
+        }
+      }
+
+      .company-logo {
+        max-width: 100%;
+        max-height: 50px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        opacity: 0.6;
+        filter: grayscale(100%);
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 991px) {
+  .trusted-companies-section {
+    padding: 50px 0;
+
+    .section-title {
+      font-size: 28px;
+    }
+
+    .companies-logos {
+      gap: 30px;
+      
+      .logo-item {
+        min-width: 100px;
+        max-width: 140px;
+        height: 50px;
+
+        .company-logo {
+          max-height: 40px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .trusted-companies-section {
+    padding: 40px 0;
+
+    .section-title {
+      font-size: 24px;
+    }
+
+    .title-underline {
+      margin-bottom: 40px;
+    }
+
+    .companies-logos {
+      gap: 20px;
+      justify-content: center;
+      
+      .logo-item {
+        min-width: 80px;
+        max-width: 120px;
+        height: 45px;
+
+        .company-logo {
+          max-height: 35px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .trusted-companies-section {
+    .companies-logos {
+      .logo-item {
+        min-width: 70px;
+        max-width: 100px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
