@@ -1,0 +1,17 @@
+<div class="container categories-strip">
+	<div class="row g-5 flex-nowrap overflow-auto">
+		<div class="col-auto" *ngFor="let catg of categories">
+			<div class="category-card d-flex align-items-center">
+				<div class="icon-pill d-flex align-items-center justify-content-center">
+					<i class="fa-xl" [ngClass]="catg.iconClass"></i>
+				</div>
+				<div class="ms-3">
+					<div class="title">{{ catg.title }}</div>
+					<div class="count">{{ catg.countText }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+

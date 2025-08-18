@@ -1,0 +1,64 @@
+
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container">
+
+      <div class="navbar-brand logo-container">
+        <img class="logo-img" src="logo.png" alt="Rose Happy Gift logo">
+      </div>
+
+
+      <div class="navbar-nav mx-auto desktop-nav d-none d-lg-flex">
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">All Category</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="#">Contact</a>
+      </div>
+
+
+      <div class="d-flex align-items-center">
+
+        <div class="navbar-nav utility-icons d-flex flex-row">
+          <a class="nav-link icon-link" href="#">
+            <i class="fas fa-search"></i>
+          </a>
+          <a class="nav-link icon-link" href="#">
+            <i class="far fa-heart"></i>
+            <span class="badge">2</span>
+          </a>
+          <a class="nav-link icon-link" href="#">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="badge">5</span>
+          </a>
+        </div>
+
+
+        <button 
+          class="mobile-menu-btn d-lg-none ms-3" 
+          (click)="toggleMobileMenu()"
+          [class.active]="isMobileMenuOpen"
+        >
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
+    </div>
+
+
+    <div class="mobile-nav" [class.show]="isMobileMenuOpen">
+      <div class="mobile-nav-links">
+        <a class="mobile-nav-link active" href="#" (click)="closeMobileMenu()">Home</a>
+        <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">All Category</a>
+        <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">About</a>
+        <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">Contact</a>
+      </div>
+    </div>
+
+
+    <div 
+      class="mobile-overlay" 
+      [class.show]="isMobileMenuOpen"
+      (click)="closeMobileMenu()"
+    ></div>
+</nav>

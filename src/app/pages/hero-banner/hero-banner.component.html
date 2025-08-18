@@ -1,0 +1,60 @@
+<div class="container hero-banner">
+     <div class="row g-4">
+
+     <div class="col-lg-3">
+      <div class="left-banner">
+        <div class="background-image">
+            <img src="christmasgifts.png" alt="Christmas gifts background">
+        </div>
+        <div class="content">
+          <div class="price-tag">START $10.99</div>
+          <h2 class="title">Special Gifts Box</h2>
+          <h3 class="subtitle">For Your Love</h3>
+          <button class="btn btn-shop">Shop Now →</button>
+        </div>
+      </div>
+    </div>
+
+
+     <div class="col-lg-9">
+      <div class="right-banner">
+        <div class="slider-container">
+          <div class="slides" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+            <div class="slide" *ngFor="let slide of slides">
+              <div class="slide-content">
+                <div class="text-content">
+                  <div class="badge">BEST GIFT SHOP</div>
+                  <h1 class="slide-title">{{ slide.title }}</h1>
+                  <h2 class="slide-subtitle">{{ slide.subtitle }}</h2>
+                  <p class="slide-description">{{ slide.description }}</p>
+                  <button class="btn btn-shop">Shop Now →</button>
+                </div>
+                                 <div class="background-image">
+                   <img src="rightimage.jpg" alt="Right banner background with roses and balloons">
+                 </div>
+              </div>
+            </div>
+          </div>
+
+
+          <button class="nav-arrow nav-prev" (click)="prevSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-arrow nav-next" (click)="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+
+          <div class="dots-indicator">
+            <span 
+              *ngFor="let slide of slides; let i = index" 
+              class="dot" 
+              [class.active]="i === currentSlide"
+              (click)="goToSlide(i)">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

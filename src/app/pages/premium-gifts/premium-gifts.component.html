@@ -1,0 +1,119 @@
+  <div class="container premium-gifts">
+    <div class="row">
+
+      <div class="col-12 col-lg-4 order-1 order-lg-1 mb-4 mb-lg-0">
+        <div class="premium-content">
+          <div class="section-badge">PREMIUM GIFTS</div>
+          <h2 class="section-title">
+            Best <span class="highlight">Seller</span><br>
+            <span class="highlight">Gifts</span> And Products
+          </h2>
+          <p class="section-description">
+            Recusandae tempora aut laborum molestias veniam. A commodi sequi 
+            accusantium ullam cupiditate. Neque quidem qui et autem dolor dicta 
+            necessitatibus ut ad.
+          </p>
+          <button class="btn btn-explore">
+            Explore More →
+          </button>
+        </div>
+      </div>
+
+
+      <div class="col-12 col-lg-8 order-2 order-lg-2">
+      <div class="products-slider">
+
+        <div class="slider-container">
+          <div class="products-wrapper" 
+               [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+            <div class="slide" 
+                 *ngFor="let slideIndex of getSlideIndices()">
+              <div class="row g-3 d-none d-md-flex">
+                <div class="col-md-4" 
+                     *ngFor="let product of getProductsForSlide(slideIndex); let i = index">
+                  <div class="premium-product-card">
+                    <div class="product-badge" 
+                         [class]="getBadgeInfo(slideIndex * itemsPerSlide + i).class">
+                      {{ getBadgeInfo(slideIndex * itemsPerSlide + i).text }}
+                    </div>
+                    
+                                         <div class="product-image">
+                      <img [src]="product.image" 
+                           [alt]="product.title">
+                    </div>
+                    
+                    <div class="product-info">
+                      <h4 class="product-title">{{ truncateTitle(product.title) }}</h4>
+                      
+                      <div class="product-rating">
+                        <div class="stars">
+                          <i *ngFor="let filled of getStarArray(product.rating.rate)" 
+                             [class]="filled ? 'fas fa-star filled' : 'far fa-star'">
+                          </i>
+                        </div>
+                      </div>
+
+                      <div class="product-price">
+                        <span class="current-price">${{ product.price }}</span>
+                        <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
+                      </div>
+
+                      <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="mobile-product d-block d-md-none" 
+                   *ngFor="let product of getProductsForSlide(slideIndex); let i = index">
+                <div class="premium-product-card">
+                    <div class="product-badge" 
+                         [class]="getBadgeInfo(slideIndex * itemsPerSlide + i).class">
+                      {{ getBadgeInfo(slideIndex * itemsPerSlide + i).text }}
+                    </div>
+                    
+                                         <div class="product-image">
+                      <img [src]="product.image" 
+                           [alt]="product.title">
+                    </div>
+                    
+                    <div class="product-info">
+                      <h4 class="product-title">{{ truncateTitle(product.title) }}</h4>
+                      
+                      <div class="product-rating">
+                        <div class="stars">
+                          <i *ngFor="let filled of getStarArray(product.rating.rate)" 
+                             [class]="filled ? 'fas fa-star filled' : 'far fa-star'">
+                          </i>
+                        </div>
+                      </div>
+
+                      <div class="product-price">
+                        <span class="current-price">${{ product.price }}</span>
+                        <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
+                      </div>
+
+                      <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+
+          <button class="nav-arrow nav-prev" (click)="prevSlide()">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="nav-arrow nav-next" (click)="nextSlide()">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

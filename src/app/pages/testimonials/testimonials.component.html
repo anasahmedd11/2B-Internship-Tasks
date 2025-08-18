@@ -1,0 +1,108 @@
+<div class="testimonials-section">
+  <div class="container">
+
+    <div class="testimonials-slider">
+      <div class="slider-container">
+
+        <button class="nav-arrow nav-prev" (click)="prevSlide()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button class="nav-arrow nav-next" (click)="nextSlide()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+
+        <div class="testimonials-wrapper" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+          <div class="slide" *ngFor="let slideIndex of getSlideIndices()">
+
+            <div class="row d-none d-md-flex">
+              <div class="col-lg-4" *ngFor="let testimonial of getTestimonialsForSlide(slideIndex)">
+                <div class="testimonial-card">
+
+                  <div class="comment-icon">
+                    <img src="/comment.svg" alt="Comment" class="comment-svg">
+                  </div>
+                  
+
+                  <div class="user-info">
+                    <div class="user-avatar">
+                      <img [src]="testimonial.avatar" [alt]="testimonial.name" class="img-fluid">
+                    </div>
+                    <div class="user-details">
+                      <h5 class="user-name">{{ testimonial.name }}</h5>
+                      <p class="user-role">{{ testimonial.role }}</p>
+                    </div>
+                  </div>
+
+
+                  <div class="separator-line"></div>
+
+
+                  <div class="testimonial-content">
+                    <p>{{ testimonial.content }}</p>
+                  </div>
+
+
+                  <div class="testimonial-rating">
+                    <i 
+                      *ngFor="let star of getStarArray(testimonial.rating)" 
+                      class="fas fa-star"
+                      [class.filled]="star === 1"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="mobile-testimonial d-block d-md-none" 
+                 *ngFor="let testimonial of getTestimonialsForSlide(slideIndex)">
+              <div class="testimonial-card">
+                <!-- Comment Icon -->
+                <div class="comment-icon">
+                  <img src="/comment.svg" alt="Comment" class="comment-svg">
+                </div>
+                
+                <!-- User Info -->
+                <div class="user-info">
+                  <div class="user-avatar">
+                    <img [src]="testimonial.avatar" [alt]="testimonial.name" class="img-fluid">
+                  </div>
+                  <div class="user-details">
+                    <h5 class="user-name">{{ testimonial.name }}</h5>
+                    <p class="user-role">{{ testimonial.role }}</p>
+                  </div>
+                </div>
+
+                <div class="separator-line"></div>
+
+                <div class="testimonial-content">
+                  <p>{{ testimonial.content }}</p>
+                </div>
+    
+                <div class="testimonial-rating">
+                  <i 
+                    *ngFor="let star of getStarArray(testimonial.rating)" 
+                    class="fas fa-star"
+                    [class.filled]="star === 1"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="slide-indicators">
+        <button 
+          *ngFor="let slideIndex of getSlideIndices()" 
+          class="indicator"
+          [class.active]="slideIndex === currentSlide"
+          (click)="goToSlide(slideIndex)"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

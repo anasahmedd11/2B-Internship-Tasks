@@ -1,0 +1,45 @@
+<footer class="footer-section">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-12">
+        <nav class="footer-nav">
+          <ul class="nav-links g-4">
+            <li><a href="#" class="nav-link">About US</a></li>
+            <li><a href="#" class="nav-link">Store Location</a></li>
+            <li><a href="#" class="nav-link">Contact</a></li>
+            <li><a href="#" class="nav-link">Delivery</a></li>
+            <li><a href="#" class="nav-link">Policy</a></li>
+            <li><a href="#" class="nav-link">FAQS</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="newsletter-section">
+          <h3 class="newsletter-title">
+            Get <span class="highlight">20%</span> Off Discount Coupon
+          </h3>
+          <p class="newsletter-subtitle">By Subscribe Our Newsletter</p>
+          
+          <div class="newsletter-form">
+            <div class="input-group">
+              <input 
+                type="email" 
+                class="newsletter-input" 
+                placeholder="Enter Your Email"
+                [(ngModel)]="emailAddress"
+              >
+              <button class="btn btn-subscribe" (click)="subscribeNewsletter()">
+                Subscribe <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
