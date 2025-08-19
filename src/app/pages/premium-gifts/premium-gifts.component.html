@@ -19,101 +19,137 @@
         </div>
       </div>
 
+       <div class="col-12 col-lg-8 order-2 order-lg-2 carousel-section">
+        <ng-container *ngIf="products$ | async as products">
+          <div class="position-relative">
+            <!-- Navigation Controls (Desktop) -->
+            <div class="carousel-nav d-none d-md-block">
+              <button class="nav-btn nav-prev" type="button" data-bs-target="#premiumGiftsCarousel" data-bs-slide="prev">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="nav-btn nav-next" type="button" data-bs-target="#premiumGiftsCarousel" data-bs-slide="next">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
 
-      <div class="col-12 col-lg-8 order-2 order-lg-2">
-      <div class="products-slider">
+            <!-- Navigation Controls (Mobile) -->
+            <div class="carousel-nav d-block d-md-none">
+              <button class="nav-btn nav-prev" type="button" data-bs-target="#premiumGiftsCarouselMobile" data-bs-slide="prev">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="nav-btn nav-next" type="button" data-bs-target="#premiumGiftsCarouselMobile" data-bs-slide="next">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
 
-        <div class="slider-container">
-          <div class="products-wrapper" 
-               [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
-            <div class="slide" 
-                 *ngFor="let slideIndex of getSlideIndices()">
-              <div class="row g-3 d-none d-md-flex">
-                <div class="col-md-4" 
-                     *ngFor="let product of getProductsForSlide(slideIndex); let i = index">
-                  <div class="premium-product-card">
-                    <div class="product-badge" 
-                         [class]="getBadgeInfo(slideIndex * itemsPerSlide + i).class">
-                      {{ getBadgeInfo(slideIndex * itemsPerSlide + i).text }}
-                    </div>
-                    
-                                         <div class="product-image">
-                      <img [src]="product.image" 
-                           [alt]="product.title">
-                    </div>
-                    
-                    <div class="product-info">
-                      <h4 class="product-title">{{ truncateTitle(product.title) }}</h4>
-                      
-                      <div class="product-rating">
-                        <div class="stars">
-                          <i *ngFor="let filled of getStarArray(product.rating.rate)" 
-                             [class]="filled ? 'fas fa-star filled' : 'far fa-star'">
-                          </i>
+            <!-- Desktop Carousel (>= md, 3 items/slide) -->
+            <div id="premiumGiftsCarousel" class="carousel slide d-none d-md-block" data-bs-ride="false" data-bs-touch="true" data-bs-keyboard="true">
+              <div class="carousel-inner">
+                <div *ngFor="let group of groupIntoChunks(products, 3); let slideIndex = index" 
+                     class="carousel-item" [class.active]="slideIndex === 0">
+                  <div class="row g-4">
+                    <div class="col-md-4" *ngFor="let product of group; let cardIndex = index">
+                      <div class="product-card">
+                        <!-- Product Tags -->
+                        <div class="product-tag" 
+                             [ngClass]="{
+                               'tag-new': cardIndex === 0,
+                               'tag-out-of-stock': cardIndex === 1,
+                               'tag-hot': cardIndex === 2
+                             }">
+                          <span *ngIf="cardIndex === 0">NEW</span>
+                          <span *ngIf="cardIndex === 1">OUT OF STOCK</span>
+                          <span *ngIf="cardIndex === 2">HOT</span>
+                        </div>
+
+                        <!-- Product Image -->
+                        <div class="product-image">
+                          <img [src]="product.image" [alt]="product.title">
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="product-info">
+                          <h5 class="product-title">Special Gift Box</h5>
+                          
+                          <!-- Star Rating -->
+                          <div class="star-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                          </div>
+
+                          <!-- Price and Cart -->
+                          <div class="product-footer">
+                            <div class="price-section">
+                              <span class="current-price">${{ product.price }}</span>
+                              <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
+                            </div>
+                            <button class="cart-btn">
+                              <i class="bi bi-bag"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="product-price">
-                        <span class="current-price">${{ product.price }}</span>
-                        <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
-                      </div>
-
-                      <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-bag"></i>
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-              
+            </div>
 
-              <div class="mobile-product d-block d-md-none" 
-                   *ngFor="let product of getProductsForSlide(slideIndex); let i = index">
-                <div class="premium-product-card">
-                    <div class="product-badge" 
-                         [class]="getBadgeInfo(slideIndex * itemsPerSlide + i).class">
-                      {{ getBadgeInfo(slideIndex * itemsPerSlide + i).text }}
-                    </div>
-                    
-                                         <div class="product-image">
-                      <img [src]="product.image" 
-                           [alt]="product.title">
-                    </div>
-                    
-                    <div class="product-info">
-                      <h4 class="product-title">{{ truncateTitle(product.title) }}</h4>
-                      
-                      <div class="product-rating">
-                        <div class="stars">
-                          <i *ngFor="let filled of getStarArray(product.rating.rate)" 
-                             [class]="filled ? 'fas fa-star filled' : 'far fa-star'">
-                          </i>
+            <!-- Mobile Carousel (< md, 1 item/slide) -->
+            <div id="premiumGiftsCarouselMobile" class="carousel slide d-block d-md-none" data-bs-ride="false" data-bs-touch="true" data-bs-keyboard="true">
+              <div class="carousel-inner">
+                <div *ngFor="let product of products; let slideIndex = index" class="carousel-item" [class.active]="slideIndex === 0">
+                  <div class="row g-4 justify-content-center">
+                    <div class="col-12">
+                      <div class="product-card">
+                        <!-- Product Tags -->
+                        <div class="product-tag" 
+                             [ngClass]="{
+                               'tag-new': (slideIndex % 3) === 0,
+                               'tag-out-of-stock': (slideIndex % 3) === 1,
+                               'tag-hot': (slideIndex % 3) === 2
+                             }">
+                          <span *ngIf="(slideIndex % 3) === 0">NEW</span>
+                          <span *ngIf="(slideIndex % 3) === 1">OUT OF STOCK</span>
+                          <span *ngIf="(slideIndex % 3) === 2">HOT</span>
+                        </div>
+
+                        <!-- Product Image -->
+                        <div class="product-image">
+                          <img [src]="product.image" [alt]="product.title">
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="product-info">
+                          <h5 class="product-title">Special Gift Box</h5>
+                          <div class="star-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                          </div>
+                          <div class="product-footer">
+                            <div class="price-section">
+                              <span class="current-price">${{ product.price }}</span>
+                              <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
+                            </div>
+                            <button class="cart-btn">
+                              <i class="bi bi-bag"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="product-price">
-                        <span class="current-price">${{ product.price }}</span>
-                        <span class="original-price">${{ (product.price * 1.4) | number:'1.2-2' }}</span>
-                      </div>
-
-                      <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-bag"></i>
-                      </button>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
-
-
-          <button class="nav-arrow nav-prev" (click)="prevSlide()">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="nav-arrow nav-next" (click)="nextSlide()">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
+        </ng-container>
       </div>
-    </div>
   </div>
 </div>

@@ -15,4 +15,5 @@ export class NavbarComponent {
   closeMobileMenu() {
     this.isMobileMenuOpen = false;
   }
+
 }
