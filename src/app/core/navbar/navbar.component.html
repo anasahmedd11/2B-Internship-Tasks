@@ -29,7 +29,24 @@
             <i class="fas fa-shopping-bag"></i>
             <span class="badge">5</span>
           </a>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+          
+          <!-- Not authenticated -->
+          <button 
+            *ngIf="!isAuthenticated" 
+            class="btn btn-primary" 
+            data-bs-toggle="modal" 
+            data-bs-target="#loginModal">
+            Login
+          </button>
+          
+          <!-- Authenticated -->
+          <button 
+            *ngIf="isAuthenticated" 
+            class="btn btn-outline-danger"
+            (click)="logout()"
+            title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
         </div>
 
 
@@ -53,6 +70,31 @@
         <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">All Category</a>
         <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">About</a>
         <a class="mobile-nav-link" href="#" (click)="closeMobileMenu()">Contact</a>
+        
+        <!-- Mobile Login/Logout -->
+        <div class="mobile-auth-section mt-3 pt-3 border-top">
+          
+          <button 
+            *ngIf="!isAuthenticated" 
+            class="btn btn-primary w-100 mb-2" 
+            data-bs-toggle="modal" 
+            data-bs-target="#loginModal"
+            (click)="closeMobileMenu()">
+            Login
+          </button>
+          
+          
+          <div *ngIf="isAuthenticated" class="text-center">
+            <p class="text-light mb-2" *ngIf="currentUser">
+              Welcome, {{ currentUser.firstName || currentUser.name || 'User' }}!
+            </p>
+            <button 
+              class="btn btn-outline-light w-100"
+              (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -64,37 +106,8 @@
     ></div>
 </nav>
 
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content login-modal-content">
-      <div class="modal-header border-0">
-        <h5 class="modal-title login-title" id="loginModalLabel">Login To Your Account</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <input type="email" class="form-control login-input" placeholder="Email" required>
-          </div>
-          <div class="mb-3">
-            <input type="password" class="form-control login-input" placeholder="Password" required>
-          </div>
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="rememberMe">
-              <label class="form-check-label" for="rememberMe">
-                Remind me
-              </label>
-            </div>
-            <a href="#" class="forgot-password-link">Forgot Password</a>
-          </div>
-          <div class="text-center mb-3">
-            <p class="no-account-text">No account? <a href="#" class="create-account-link">Create one here</a></p>
-          </div>
-          <button type="submit" class="btn login-btn w-100">Login</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+<app-login></app-login>
+<app-signup></app-signup>
+<app-forgot-password></app-forgot-password>
+<app-verify-code></app-verify-code>

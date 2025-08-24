@@ -1,0 +1,48 @@
+<div class="modal fade" id="verifyCodeModal" tabindex="-1" aria-labelledby="verifyCodeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content login-modal-content p-4 m-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title login-title" id="verifyCodeModalLabel">Verify Code</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="verifyCodeForm" (ngSubmit)="onSubmit()">
+          <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+          </div>
+          
+          <div *ngIf="successMessage" class="alert alert-success mb-3">
+            {{ successMessage }}
+          </div>
+
+          <div class="mb-3">
+            <input 
+              type="text" 
+              class="form-control login-input" 
+              placeholder="Enter Code" 
+              formControlName="code"
+              [class.is-invalid]="code?.invalid && (code?.dirty || code?.touched)"
+              required>
+            <div *ngIf="code?.invalid && (code?.dirty || code?.touched)" class="invalid-feedback">
+              <div *ngIf="code?.errors?.['required']">Code is required</div>
+              <div *ngIf="code?.errors?.['minlength']">Code must be at least 4 characters</div>
+            </div>
+          </div>
+
+          <div class="text-end mb-4">
+            <span class="text-muted">Didn't receive a code? </span>
+            <a href="#" class="resend-link" (click)="resendCode(); $event.preventDefault()">Resend</a>
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn login-btn w-100" 
+            [disabled]="verifyCodeForm.invalid || isLoading()">
+            <span *ngIf="isLoading()" class="spinner-border spinner-border-sm me-2"></span>
+            {{ isLoading() ? 'Verifying...' : 'Verify Code' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

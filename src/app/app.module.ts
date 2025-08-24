@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { loadingInterceptor } from './core/interceptors/loader.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,11 @@ import { TestimonialsComponent } from './pages/testimonials/testimonials.compone
 import { TrustedCompaniesComponent } from './pages/trusted-companies/trusted-companies.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { VerifyCodeComponent } from './pages/verify-code/verify-code.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +41,20 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     TestimonialsComponent,
     TrustedCompaniesComponent,
     FooterComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    LoginComponent,
+    SignupComponent,
+    ForgotPasswordComponent,
+    VerifyCodeComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideHttpClient(withInterceptors([loadingInterceptor]))
