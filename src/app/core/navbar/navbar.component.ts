@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentUser: any = null;
   private authSubscription: Subscription = new Subscription();
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit() {
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
@@ -34,11 +38,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = false;
   }
 
+  openLoginModal() {
+    this.modalService.showModal('loginModal');
+  }
+
   logout() {
+    this.modalService.closeAllModals();  
     this.authService.logout();
-    this.closeMobileMenu();   
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    this.closeMobileMenu();
   }
 }

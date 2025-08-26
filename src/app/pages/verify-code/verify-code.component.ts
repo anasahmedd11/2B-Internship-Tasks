@@ -4,8 +4,8 @@ import { AuthService } from '../../core/services/auth.service';
 import { LoadingService } from '../../core/services/loader.service';
 import { ForgotPasswordService } from '../../core/services/forgot-password.service';
 import { VerifyCodeRequest, ResendCodeRequest } from '../../core/Model/auth.models';
+import { ModalService } from '../../core/services/modal.service';
 
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-verify-code',
@@ -22,7 +22,8 @@ export class VerifyCodeComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private loadingService: LoadingService,
-    private forgotPasswordService: ForgotPasswordService
+    private forgotPasswordService: ForgotPasswordService,
+    private modalService: ModalService
   ) {
     this.isLoading = this.loadingService.loading;
     this.verifyCodeForm = this.fb.group({
@@ -52,19 +53,7 @@ export class VerifyCodeComponent {
             this.successMessage = response.message || 'Code verified successfully!';
             this.verifyCodeForm.reset();
             
-            const verifyModal = document.getElementById('verifyCodeModal');
-            const resetModal = document.getElementById('resetPasswordModal');
-            
-            if (verifyModal && resetModal) {
-              const bsVerifyModal = bootstrap.Modal.getInstance(verifyModal);
-              if (bsVerifyModal) {
-                bsVerifyModal.hide();
-                setTimeout(() => {
-                  const bsResetModal = new bootstrap.Modal(resetModal);
-                  bsResetModal.show();
-                }, 300);
-              }
-            }
+            this.modalService.switchModal('verifyCodeModal', 'resetPasswordModal');
           } else {
             this.errorMessage = response?.message || 'Invalid verification code';
           }
@@ -119,6 +108,6 @@ export class VerifyCodeComponent {
       }
     });
   }
-
+  
   get code() { return this.verifyCodeForm.get('code'); }
 }

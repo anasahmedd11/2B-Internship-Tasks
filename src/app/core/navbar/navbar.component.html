@@ -34,8 +34,7 @@
           <button 
             *ngIf="!isAuthenticated" 
             class="btn btn-primary" 
-            data-bs-toggle="modal" 
-            data-bs-target="#loginModal">
+            (click)="openLoginModal()">
             Login
           </button>
           
@@ -77,9 +76,7 @@
           <button 
             *ngIf="!isAuthenticated" 
             class="btn btn-primary w-100 mb-2" 
-            data-bs-toggle="modal" 
-            data-bs-target="#loginModal"
-            (click)="closeMobileMenu()">
+            (click)="openLoginModal(); closeMobileMenu()">
             Login
           </button>
           
@@ -105,9 +102,3 @@
       (click)="closeMobileMenu()"
     ></div>
 </nav>
-
-
-<app-login></app-login>
-<app-signup></app-signup>
-<app-forgot-password></app-forgot-password>
-<app-verify-code></app-verify-code>

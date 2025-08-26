@@ -4,6 +4,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ForgotPasswordRequest } from '../../core/Model/auth.models';
 import { LoadingService } from '../../core/services/loader.service';
 import { ForgotPasswordService } from '../../core/services/forgot-password.service';
+import { ModalService } from '../../core/services/modal.service';
 declare var bootstrap: any;
 
 @Component({
@@ -23,7 +24,8 @@ export class ForgotPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private loadingService: LoadingService,
-    private forgotPasswordService: ForgotPasswordService
+    private forgotPasswordService: ForgotPasswordService,
+    private modalService: ModalService
   ) {
     this.isLoading = this.loadingService.loading;
     this.forgotPasswordForm = this.fb.group({
@@ -32,8 +34,9 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.forgotPasswordModal = new bootstrap.Modal(document.getElementById('forgotPasswordModal'));
-    this.verifyCodeModal = new bootstrap.Modal(document.getElementById('verifyCodeModal'));
+    // Initialize modal with click outside functionality
+    this.modalService.initializeModal('forgotPasswordModal');
+    this.modalService.initializeModal('verifyCodeModal');
   }
 
   onSubmit() {
@@ -52,20 +55,7 @@ export class ForgotPasswordComponent implements OnInit {
             this.forgotPasswordService.setEmail(this.forgotPasswordForm.value.email);
             this.forgotPasswordForm.reset();
             
-            // Close forgot password modal and open verify code modal
-            const forgotModal = document.getElementById('forgotPasswordModal');
-            const verifyModal = document.getElementById('verifyCodeModal');
-            
-            if (forgotModal && verifyModal) {
-              const bsForgotModal = bootstrap.Modal.getInstance(forgotModal);
-              if (bsForgotModal) {
-                bsForgotModal.hide();
-                setTimeout(() => {
-                  const bsVerifyModal = new bootstrap.Modal(verifyModal);
-                  bsVerifyModal.show();
-                }, 300);
-              }
-            }
+            this.modalService.switchModal('forgotPasswordModal', 'verifyCodeModal');
           } else {
             this.errorMessage = response.message;
           }
@@ -86,5 +76,4 @@ export class ForgotPasswordComponent implements OnInit {
   }
   
   get email() { return this.forgotPasswordForm.get('email'); }
-
 }

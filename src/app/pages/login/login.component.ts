@@ -1,17 +1,16 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { LoginRequest } from '../../core/Model/auth.models';
 import { LoadingService } from '../../core/services/loader.service';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
-  @Output() switchToSignup = new EventEmitter<void>();
-  
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -20,7 +19,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private modalService: ModalService
   ) {
     this.isLoading = this.loadingService.loading;
     this.loginForm = this.fb.group({
@@ -30,12 +30,22 @@ export class LoginComponent {
     });
   }
 
-  openSignupModal() {
-    this.switchToSignup.emit();
+  ngOnInit() {
+    this.modalService.initializeModal('loginModal');
   }
 
-  onSubmit(form:FormGroup) {
-    
+  onSwitchToForgotPassword(event: Event) {
+    //* prevent browser from following the href in anchor tag which can change URL
+    event.preventDefault();
+    this.modalService.switchModal('loginModal', 'forgotPasswordModal');
+  }
+
+  onSwitchToSignup(event: Event) {
+    event.preventDefault();
+    this.modalService.switchModal('loginModal', 'signupModal');
+  }
+
+  onSubmit(form:FormGroup) {  
     if (form.valid) {
       this.errorMessage = '';
       const credentials: LoginRequest = {
@@ -50,16 +60,8 @@ export class LoginComponent {
             this.loginForm.reset();
             this.errorMessage = '';
             
-            // Close modal and refresh page after a delay
             setTimeout(() => {
-              let loginPopup: HTMLDivElement | any = document.querySelector('#loginModal');
-              loginPopup.classList.add('hide');
-              loginPopup.classList.remove('show');
-              
-              // Refresh the page to remove any backdrop shadows
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
+              this.modalService.closeAllModals();
             }, 1000);
           } else {
             this.errorMessage = response.message;

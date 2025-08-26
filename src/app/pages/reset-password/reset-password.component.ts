@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { LoadingService } from '../../core/services/loader.service';
 import { ForgotPasswordService } from '../../core/services/forgot-password.service';
 import { ResetPasswordRequest } from '../../core/Model/auth.models';
 import { confirmPasswordValidator } from '../../core/CustomValidations/passwordConfirmation';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -21,7 +22,8 @@ export class ResetPasswordComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private loadingService: LoadingService,
-    private forgotPasswordService: ForgotPasswordService
+    private forgotPasswordService: ForgotPasswordService,
+    private modalService: ModalService
   ) {
     this.isLoading = this.loadingService.loading;
     
@@ -29,6 +31,10 @@ export class ResetPasswordComponent {
       password: ['', [Validators.required, Validators.pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)]],
       rePassword: ['', [Validators.required]]
     }, { validators: confirmPasswordValidator });
+  }
+
+  ngOnInit() {
+    this.modalService.initializeModal('resetPasswordModal');
   }
 
   onSubmit() {
@@ -51,18 +57,12 @@ export class ResetPasswordComponent {
       this.authService.resetPassword(request).subscribe({
         next: (response) => {
           if (response) {
-            this.successMessage = response.message || 'Password reset successfully!';
+            this.successMessage = 'Password reset successfully!';
             this.resetPasswordForm.reset();
             this.forgotPasswordService.clearEmail();
             
             setTimeout(() => {
-              let resetPasswordPopup: HTMLDivElement | any = document.querySelector('#resetPasswordModal');
-              resetPasswordPopup.classList.add('hide');
-              resetPasswordPopup.classList.remove('show');
-              
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
+              this.modalService.closeAllModals();
             }, 1000);
           } else {
             this.errorMessage = 'Failed to reset password';
@@ -79,6 +79,10 @@ export class ResetPasswordComponent {
         }
       });
     }
+  }
+
+  closeModal() {
+    this.modalService.hideModal('resetPasswordModal');
   }
 
   get password() { return this.resetPasswordForm.get('password'); }

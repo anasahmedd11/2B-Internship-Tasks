@@ -1,18 +1,17 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { SignupRequest } from '../../core/Model/auth.models';
 import { LoadingService } from '../../core/services/loader.service';
 import { confirmPasswordValidator } from '../../core/CustomValidations/passwordConfirmation';
+import { ModalService } from '../../core/services/modal.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent {
-  @Output() switchToLogin = new EventEmitter<void>();
-  
+export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -21,7 +20,8 @@ export class SignupComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private modalService: ModalService
   ) {
     this.isLoading = this.loadingService.loading;
     this.signupForm = this.fb.group({
@@ -35,8 +35,13 @@ export class SignupComponent {
     }, { validators: confirmPasswordValidator });
   }
 
-  openLoginModal() {
-    this.switchToLogin.emit();
+  ngOnInit() {
+    this.modalService.initializeModal('signupModal');
+  }
+
+  onSwitchToLogin(event: Event) {
+    event.preventDefault();
+    this.modalService.switchModal('signupModal', 'loginModal');
   }
 
   onSubmit() {
@@ -59,16 +64,8 @@ export class SignupComponent {
             this.signupForm.reset();
             this.errorMessage = '';
             
-            // Close modal and refresh page after a delay
             setTimeout(() => {
-              let signUpPopup: HTMLDivElement | any = document.querySelector('#signupModal');
-              signUpPopup.classList.add('hide');
-              signUpPopup.classList.remove('show');
-              
-              // Refresh the page to remove any backdrop shadows
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
+              this.modalService.closeAllModals();
             }, 1000);
           } else {
             this.errorMessage = response.message;
