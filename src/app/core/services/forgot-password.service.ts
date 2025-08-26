@@ -10,9 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 //* if this service is not used, the email must be passed as a URL parameter/ or stored in local storage
 export class ForgotPasswordService {
   private emailSubject = new BehaviorSubject<string>('');
-  private verificationCodeSubject = new BehaviorSubject<string>('');
   public email$ = this.emailSubject.asObservable();
-  public verificationCode$ = this.verificationCodeSubject.asObservable();
 
   setEmail(email: string) {
     this.emailSubject.next(email);
@@ -24,22 +22,5 @@ export class ForgotPasswordService {
 
   clearEmail() {
     this.emailSubject.next('');
-  }
-
-  setVerificationCode(code: string) {
-    this.verificationCodeSubject.next(code);
-  }
-
-  getVerificationCode(): string {
-    return this.verificationCodeSubject.value;
-  }
-
-  clearVerificationCode() {
-    this.verificationCodeSubject.next('');
-  }
-
-  clearAll() {
-    this.clearEmail();
-    this.clearVerificationCode();
   }
 }

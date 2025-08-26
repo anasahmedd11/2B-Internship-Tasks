@@ -56,7 +56,7 @@ export class LoginComponent {
               loginPopup.classList.add('hide');
               loginPopup.classList.remove('show');
               
-              // Refresh the page to remove any lingering backdrop shadows
+              // Refresh the page to remove any backdrop shadows
               setTimeout(() => {
                 window.location.reload();
               }, 500);

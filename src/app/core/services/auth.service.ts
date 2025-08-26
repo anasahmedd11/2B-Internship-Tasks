@@ -50,7 +50,8 @@ export class AuthService {
   }
 
   resendCode(request: ResendCodeRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.authApiUrl}/auth/resend-code`, request);
+    // Email should be sent again
+    return this.http.post<AuthResponse>(`${this.authApiUrl}/auth/forgotPassword`, request);
   }
 
   resetPassword(request: ResetPasswordRequest): Observable<AuthResponse> {

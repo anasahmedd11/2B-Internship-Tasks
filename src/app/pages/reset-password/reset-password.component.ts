@@ -6,8 +6,6 @@ import { ForgotPasswordService } from '../../core/services/forgot-password.servi
 import { ResetPasswordRequest } from '../../core/Model/auth.models';
 import { confirmPasswordValidator } from '../../core/CustomValidations/passwordConfirmation';
 
-declare var bootstrap: any;
-
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',

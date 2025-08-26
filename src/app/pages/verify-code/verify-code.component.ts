@@ -17,7 +17,6 @@ export class VerifyCodeComponent {
   errorMessage: string = '';
   successMessage: string = '';
   isLoading;
-  userEmail: string = ''; // Email stored
 
   constructor(
     private fb: FormBuilder,
@@ -51,8 +50,6 @@ export class VerifyCodeComponent {
                 next: (response) => {
           if (response && response.status === 'Success') {
             this.successMessage = response.message || 'Code verified successfully!';
-            // Storing the verification code for the reset password component
-            this.forgotPasswordService.setVerificationCode(this.verifyCodeForm.value.code);
             this.verifyCodeForm.reset();
             
             const verifyModal = document.getElementById('verifyCodeModal');
@@ -106,10 +103,10 @@ export class VerifyCodeComponent {
 
           this.authService.resendCode(request).subscribe({
         next: (response) => {
-          if (response && response.status === 'Success') {
-            this.successMessage = response.message || 'Code resent successfully!';
+          if (response) {
+            this.successMessage = 'Code resent successfully!';
           } else {
-            this.errorMessage = response?.message || 'Failed to resend code';
+            this.errorMessage = 'Failed to resend code';
           }
         },
       error: (error) => {

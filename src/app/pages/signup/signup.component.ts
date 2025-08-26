@@ -65,7 +65,7 @@ export class SignupComponent {
               signUpPopup.classList.add('hide');
               signUpPopup.classList.remove('show');
               
-              // Refresh the page to remove any lingering backdrop shadows
+              // Refresh the page to remove any backdrop shadows
               setTimeout(() => {
                 window.location.reload();
               }, 500);
